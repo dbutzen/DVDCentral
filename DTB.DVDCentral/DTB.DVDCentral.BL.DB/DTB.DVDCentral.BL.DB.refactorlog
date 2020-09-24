@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="5c8077e1-eadf-44b7-ad35-e5cc926b0853" ChangeDateTime="09/24/2020 17:57:38">
+    <Property Name="ElementName" Value="[dbo].[tblGenre].[Decription]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[tblGenre]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Description" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="cecc2842-bf0d-4e89-840b-34cd0cab9541" ChangeDateTime="09/24/2020 17:57:45">
+    <Property Name="ElementName" Value="[dbo].[tblFormat].[Decription]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[tblFormat]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Description" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c84e6ebe-0bb7-43bf-8023-51972bc921f7" ChangeDateTime="09/24/2020 17:57:52">
+    <Property Name="ElementName" Value="[dbo].[tblMovie].[Decription]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[tblMovie]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Description" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="95745649-ca24-4a83-a4ed-ceed770ae4ee" ChangeDateTime="09/24/2020 17:58:00">
+    <Property Name="ElementName" Value="[dbo].[tblRating].[Decription]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[tblRating]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Description" />
+  </Operation>
+</Operations>

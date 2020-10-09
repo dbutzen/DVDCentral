@@ -9,7 +9,7 @@ namespace DTB.DVDCentral.BL.Models
     public class Director
     {
         public int Id { get; set; }
-        public string FirstNaem { get; set; }
+        public string FirstName { get; set; }
         public string LastName { get; set; }
 
     }

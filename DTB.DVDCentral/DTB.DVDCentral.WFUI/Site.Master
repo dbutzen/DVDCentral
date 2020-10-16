@@ -64,12 +64,24 @@
                     <li class="nav-item">
                         <a class="nav-link" runat="server" href="~/Admin">Admin</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" runat="server" href="~/Formats">Formats</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" runat="server" href="~/Genres">Genres</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" runat="server" href="~/Directors">Directors</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" runat="server" href="~/Ratings">Ratings</a>
+                    </li>
                 </ul>
             </div>
         </nav>
 
 
-        <div class="container body-content">
+        <div class="main rounded-top container body-content">
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>
             <hr />

@@ -29,3 +29,27 @@ textarea {
         padding: 0;
     }
 }
+.bg-dark {
+    /*background-color: rebeccapurple !important;*/
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(102, 51, 153, 1) 35%);
+}
+
+.header {
+    margin: 0px;
+    padding: 0px;
+    background-color: rebeccapurple;
+}
+
+    .header h1, h2, h3 {
+        margin: 0px;
+        padding: 0px 0px 0px 10px;
+        color: white;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
+
+.main {
+    margin: 10px;
+    border-width: 1px;
+    border-style: solid;
+}

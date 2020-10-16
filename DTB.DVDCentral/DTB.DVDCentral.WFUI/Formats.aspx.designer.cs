@@ -11,26 +11,26 @@ namespace DTB.DVDCentral.WFUI
 {
 
 
-    public partial class Directors
+    public partial class Formats
     {
 
         /// <summary>
-        /// lblDirectorPick control.
+        /// lblFormatPick control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblDirectorPick;
+        protected global::System.Web.UI.WebControls.Label lblFormatPick;
 
         /// <summary>
-        /// ddlDirectors control.
+        /// ddlFormats control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlDirectors;
+        protected global::System.Web.UI.WebControls.DropDownList ddlFormats;
 
         /// <summary>
         /// Label1 control.
@@ -42,31 +42,13 @@ namespace DTB.DVDCentral.WFUI
         protected global::System.Web.UI.WebControls.Label Label1;
 
         /// <summary>
-        /// txtFirstName control.
+        /// txtDescription control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFirstName;
-
-        /// <summary>
-        /// Label2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label2;
-
-        /// <summary>
-        /// txtLastName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtLastName;
+        protected global::System.Web.UI.WebControls.TextBox txtDescription;
 
         /// <summary>
         /// btnInsert control.

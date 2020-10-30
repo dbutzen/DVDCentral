@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTB.DVDCentral.BL.Test", "D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTB.DVDCentral.PL.Test", "DTB.DVDCentral.PL.Test\DTB.DVDCentral.PL.Test.csproj", "{54296699-7503-4993-9DFA-20230A7519E7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTB.DVDCentral.MVCUI", "DTB.DVDCentral.MVCUI\DTB.DVDCentral.MVCUI.csproj", "{870E8700-A5EE-4C4A-8890-6C65BF9BE44F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{54296699-7503-4993-9DFA-20230A7519E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54296699-7503-4993-9DFA-20230A7519E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54296699-7503-4993-9DFA-20230A7519E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{870E8700-A5EE-4C4A-8890-6C65BF9BE44F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{870E8700-A5EE-4C4A-8890-6C65BF9BE44F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{870E8700-A5EE-4C4A-8890-6C65BF9BE44F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{870E8700-A5EE-4C4A-8890-6C65BF9BE44F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

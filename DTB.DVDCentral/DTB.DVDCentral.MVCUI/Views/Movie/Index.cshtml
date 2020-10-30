@@ -51,13 +51,13 @@
             @Html.DisplayFor(modelItem => item.Cost)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.RatingId)
+            @Html.DisplayFor(modelItem => DTB.DVDCentral.BL.RatingManager.LoadById(item.RatingId).Description)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.FormatId)
+            @Html.DisplayFor(modelItem => DTB.DVDCentral.BL.FormatManager.LoadById(item.FormatId).Description)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.DirectorId)
+            @Html.DisplayFor(modelItem => DTB.DVDCentral.BL.DirectorManager.LoadById(item.DirectorId).FullName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.InStkQty)

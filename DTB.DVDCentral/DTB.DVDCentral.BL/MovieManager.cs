@@ -20,10 +20,10 @@ namespace DTB.DVDCentral.BL
             try
             {
                 int results = 0;
-                using (butzendbEntities dc = new butzendbEntities()) // I'm not sure why this is the required syntax and not "DVDCentralEntities
-                {                                                    // If you can please let me know what I did wrong, my best guess has to do with
-                    DbContextTransaction transaction = null;         // something screwy when I created the database as there's a DVDCentral.DB and
-                    if (rollback) transaction = dc.Database.BeginTransaction(); // a DTB.DVDCentral.BL.DB in my local projects
+                using (butzendbEntities dc = new butzendbEntities()) 
+                {                                                   
+                    DbContextTransaction transaction = null;         
+                    if (rollback) transaction = dc.Database.BeginTransaction(); 
 
                     //Make a new row
                     tblMovie row = new tblMovie();
@@ -133,27 +133,55 @@ namespace DTB.DVDCentral.BL
                 throw ex;
             }
         }
-        // Retrieve all the degree types
         public static List<Movie> Load()
+        {
+            return Load(null);
+        }
+        // Retrieve all the degree types
+        public static List<Movie> Load(int? directorId)
         {
             try
             {
                 List<Movie> rows = new List<Movie>();
                 using (butzendbEntities dc = new butzendbEntities())
                 {
-                    dc.tblMovies
-                        .ToList()
-                        .ForEach(dt => rows.Add(new Movie
+                    var movies = (from m in dc.tblMovies
+                                  join mr in dc.tblRatings on m.RatingId equals mr.Id
+                                  join f in dc.tblFormats on m.FormatId equals f.Id
+                                  join d in dc.tblDirectors on m.DirectorId equals d.Id
+                                  where (m.DirectorId == directorId || directorId == null)
+                                  orderby m.Title
+                                  select new
+                                  {
+                                      MovieId = m.Id,
+                                      RatingId = mr.Id,
+                                      ratingName = mr.Description,
+                                      FormatId = f.Id,
+                                      formatName = f.Description,
+                                      DirectorId = d.Id,
+                                      d.FirstName,
+                                      d.LastName,
+                                      m.Title,
+                                      m.Cost,
+                                      m.Description,
+                                      m.ImagePath,
+                                      m.InStkQty
+                                  }).ToList();
+                   
+                        movies.ForEach(m => rows.Add(new Movie
                         {
-                            Id = dt.Id,
-                            Description = dt.Description,
-                            Title = dt.Title,
-                            Cost = dt.Cost,
-                            InStkQty = dt.InStkQty,
-                            DirectorId = dt.DirectorId,
-                            FormatId = dt.FormatId,
-                            ImagePath = dt.ImagePath,
-                            RatingId = dt.RatingId
+                            Id = m.MovieId,
+                            Title = m.Title,
+                            RatingId = m.RatingId,
+                            RatingName = m.ratingName,
+                            FormatId = m.FormatId,
+                            FormatName = m.formatName,
+                            DirectorId = m.DirectorId,
+                            DirectorName = m.LastName +", "+m.FirstName,
+                            Cost = m.Cost,
+                            Description = m.Description,
+                            ImagePath = m.ImagePath,
+                            InStkQty = m.InStkQty
 
                         })) ;
                     return rows;
@@ -172,16 +200,49 @@ namespace DTB.DVDCentral.BL
             {
                 using (butzendbEntities dc = new butzendbEntities())
                 {
-                    tblMovie row = dc.tblMovies.FirstOrDefault(dt => dt.Id == id);
-                    if (row != null)
+                    var movie = (from m in dc.tblMovies
+                                  join mr in dc.tblRatings on m.RatingId equals mr.Id
+                                  join f in dc.tblFormats on m.FormatId equals f.Id
+                                  join d in dc.tblDirectors on m.DirectorId equals d.Id
+                                  where m.Id == id
+                                  select new
+                                  {
+                                      MovieId = m.Id,
+                                      RatingId = mr.Id,
+                                      ratingName = mr.Description,
+                                      FormatId = f.Id,
+                                      formatName = f.Description,
+                                      DirectorId = d.Id,
+                                      d.FirstName,
+                                      d.LastName,
+                                      m.Title,
+                                      m.Cost,
+                                      m.Description,
+                                      m.ImagePath,
+                                      m.InStkQty
+                                  }).FirstOrDefault();
+                    if (movie != null)
                     {
-                        Movie movie = new Movie { Id = row.Id, Description = row.Description, Title = row.Title, Cost = row.Cost, InStkQty = row.InStkQty,
-                        DirectorId = row.DirectorId, FormatId = row.FormatId, ImagePath = row.ImagePath, RatingId = row.RatingId};
-                        return movie;
+                        Movie m = new Movie
+                        {
+                            Id = movie.MovieId,
+                            RatingId = movie.RatingId,
+                            RatingName = movie.ratingName,
+                            FormatId = movie.FormatId,
+                            FormatName = movie.formatName,
+                            DirectorId = movie.DirectorId,
+                            DirectorName = movie.LastName + ", " + movie.FirstName,
+                            Title = movie.Title,
+                            Cost = movie.Cost,
+                            Description = movie.Description,
+                            ImagePath = movie.ImagePath,
+                            InStkQty = movie.InStkQty
+                        };
+                        return m;
                     }
                     else
                     {
-                        throw new Exception("Row was not found");
+                        throw new Exception("Row was not found, sorry!");
                     }
                 }
             }

@@ -16,25 +16,22 @@
             @Html.DisplayNameFor(model => model.Title)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.ImagePath)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Cost)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.RatingId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FormatId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DirectorId)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.InStkQty)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ImagePath)
+            @Html.DisplayNameFor(model => model.RatingName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FormatName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DirectorName)
         </th>
         <th></th>
     </tr>
@@ -45,25 +42,22 @@
             @Html.DisplayFor(modelItem => item.Title)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Description)
+            <img class="imageprop" src="#" />
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Cost)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => DTB.DVDCentral.BL.RatingManager.LoadById(item.RatingId).Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => DTB.DVDCentral.BL.FormatManager.LoadById(item.FormatId).Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => DTB.DVDCentral.BL.DirectorManager.LoadById(item.DirectorId).FullName)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.InStkQty)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ImagePath)
+            @Html.DisplayFor(modelItem => item.RatingName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FormatName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DirectorName)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

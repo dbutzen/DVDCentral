@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="utCustomer.cs" />
     <Compile Include="utOrderItem.cs" />
     <Compile Include="utOrder.cs" />
     <Compile Include="utDirector.cs" />

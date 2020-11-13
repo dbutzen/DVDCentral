@@ -57,6 +57,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="utCustomer.cs" />
     <Compile Include="utOrder.cs" />
     <Compile Include="utOrderItem.cs" />
     <Compile Include="utDirector.cs" />

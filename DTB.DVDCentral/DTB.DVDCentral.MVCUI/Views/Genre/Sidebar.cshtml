@@ -1,0 +1,25 @@
+﻿@model IEnumerable<DTB.DVDCentral.BL.Models.Genre>
+
+<table>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.Description, "Browse", "Movie", new { id = item.Id}, null)
+            </td>
+        </tr>
+    }
+    <tr>
+        <td>
+            @Html.ActionLink("All", "Index", "Movie")
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.ActionLink("New Declaration", "Create", "Movie")
+        </td>
+    </tr>
+
+
+</table>

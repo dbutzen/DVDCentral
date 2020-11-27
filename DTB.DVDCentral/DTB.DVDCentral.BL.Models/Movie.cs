@@ -15,7 +15,9 @@ namespace DTB.DVDCentral.BL.Models
         public decimal Cost { get; set; }
         [DisplayName("Rating")]
         public int RatingId { get; set; }
+        [DisplayName("Format")]
         public int FormatId { get; set; }
+        [DisplayName("Director")]
         public int DirectorId { get; set; }
         [DisplayName("Quantity In Stock")]
         public int InStkQty { get; set; }
@@ -27,6 +29,13 @@ namespace DTB.DVDCentral.BL.Models
         public string FormatName { get; set; }
         [DisplayName("Rating")]
         public string RatingName { get; set; }
+        public List<Genre> Genres { get; set; }
+        public Movie()
+        {
+            Genres = new List<Genre>();
+        }
+
+        
 
     }
 }

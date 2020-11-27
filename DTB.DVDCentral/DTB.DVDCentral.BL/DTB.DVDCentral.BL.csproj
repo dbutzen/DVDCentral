@@ -55,6 +55,7 @@
     <Compile Include="DirectorManager.cs" />
     <Compile Include="FormatManager.cs" />
     <Compile Include="GenreManager.cs" />
+    <Compile Include="MovieGenreManager.cs" />
     <Compile Include="MovieManager.cs" />
     <Compile Include="OrderItemManager.cs" />
     <Compile Include="OrderManager.cs" />

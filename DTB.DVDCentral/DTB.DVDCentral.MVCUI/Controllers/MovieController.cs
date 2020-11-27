@@ -1,7 +1,9 @@
 ﻿using DTB.DVDCentral.BL;
 using DTB.DVDCentral.BL.Models;
+using DTB.DVDCentral.MVCUI.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -10,18 +12,29 @@ namespace DTB.DVDCentral.MVCUI.Controllers
 {
     public class MovieController : Controller
     {
-        List<Movie> movies;
+        List<DTB.DVDCentral.BL.Models.Movie> movies;
         // GET: Movie
         public ActionResult Index()
         {
             movies = MovieManager.Load();
             return View(movies);
         }
+        public ActionResult Browse(int id)
+        {
+            movies = MovieGenreManager.Load(id);
+            
+            return View(movies);
+        }
+        public ActionResult Load(int id)
+        {
+            var movies = MovieManager.Load(id);
+            return View("Index", movies);
+        }
 
         // GET: Movie/Details/5
         public ActionResult Details(int id)
         {
-            Movie movie = new Movie();
+            DTB.DVDCentral.BL.Models.Movie movie = new DTB.DVDCentral.BL.Models.Movie();
             movie = MovieManager.LoadById(id);
             return View(movie);
         }
@@ -29,18 +42,43 @@ namespace DTB.DVDCentral.MVCUI.Controllers
         // GET: Movie/Create
         public ActionResult Create()
         {
-            Movie movie = new Movie();
-            return View(movie);
+            MovieGenresDirectorsRatingsFormats mgdrf = new MovieGenresDirectorsRatingsFormats();
+            mgdrf.Movie = new Movie();
+            mgdrf.Directors = DirectorManager.Load();
+            mgdrf.Formats = FormatManager.Load();
+            mgdrf.Ratings = RatingManager.Load();
+            mgdrf.Genres = GenreManager.Load();
+
+            return View(mgdrf);
         }
 
         // POST: Movie/Create
         [HttpPost]
-        public ActionResult Create(Movie movie)
+        public ActionResult Create(MovieGenresDirectorsRatingsFormats mgdrf)
         {
             try
             {
-                // TODO: Add insert logic here
-                MovieManager.Insert(movie);
+                if(mgdrf.File != null)
+                {
+                    mgdrf.Movie.ImagePath = mgdrf.File.FileName;
+                    string target = Path.Combine(Server.MapPath("~/Images"), Path.GetFileName(mgdrf.File.FileName));
+
+                    if (!System.IO.File.Exists(target))
+                    {
+                        mgdrf.File.SaveAs(target);
+                        ViewBag.Message = "File Uploaded Successfully";
+
+                    }
+                    else
+                    {
+                        ViewBag.Message = "File Already Exists";
+                    }
+                }
+
+
+
+                MovieManager.Insert(mgdrf.Movie);
+                mgdrf.GenreIds.ToList().ForEach(m => MovieGenreManager.Add(mgdrf.Movie.Id, m));
                 return RedirectToAction("Index");
             }
             catch
@@ -52,20 +90,72 @@ namespace DTB.DVDCentral.MVCUI.Controllers
         // GET: Movie/Edit/5
         public ActionResult Edit(int id)
         {
-            Movie movie = new Movie();
-            movie = MovieManager.LoadById(id);
-            return View(movie);
+            MovieGenresDirectorsRatingsFormats mgdrf = new MovieGenresDirectorsRatingsFormats();
+            mgdrf.Movie = MovieManager.LoadById(id);
+            mgdrf.Ratings = RatingManager.Load();
+            mgdrf.Directors = DirectorManager.Load();
+            mgdrf.Formats = FormatManager.Load();
+            mgdrf.Genres = GenreManager.Load();
+            mgdrf.Movie.Genres = GenreManager.Load(id);
+            mgdrf.GenreIds = mgdrf.Movie.Genres.Select(a => a.Id);
+            Session["genreids"] = mgdrf.GenreIds;
+            /*Movie movie = new Movie();
+            movie = MovieManager.LoadById(id);*/
+            return View(mgdrf);
         }
+
 
         // POST: Movie/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, Movie movie)
+        public ActionResult Edit(int id, MovieGenresDirectorsRatingsFormats mgdrf)
         {
             try
             {
-                // TODO: Add update logic here
+                if (mgdrf.File != null)
+                {
+                    mgdrf.Movie.ImagePath = mgdrf.File.FileName;
+                    string target = Path.Combine(Server.MapPath("~/Images"), Path.GetFileName(mgdrf.File.FileName));
+
+                    if (!System.IO.File.Exists(target))
+                    {
+                        mgdrf.File.SaveAs(target);
+                        ViewBag.Message = "File Uploaded Successfully";
+
+                    }
+                    else
+                    {
+                        ViewBag.Message = "File Already Exists";
+                    }
+                }
+
+
+                IEnumerable<int> oldgenreids = new List<int>();
+                if (Session["genreids"] != null)
+                {
+                    oldgenreids = (IEnumerable<int>)Session["genreids"];
+                }
+
+                IEnumerable<int> newgenreids = new List<int>();
+                if (mgdrf.GenreIds != null)
+                {
+                    newgenreids = mgdrf.GenreIds;
+                }
+
+                // Identify deletes
+                IEnumerable<int> deletes = oldgenreids.Except(newgenreids);
+
+                // Identify Adds
+                IEnumerable<int> adds = newgenreids.Except(oldgenreids);
+
+                deletes.ToList().ForEach(d => MovieGenreManager.Delete(id, d));
+                adds.ToList().ForEach(a => MovieGenreManager.Add(id, a));
+
+                MovieManager.Update(mgdrf.Movie);
+                return RedirectToAction("Index");
+                /*
                 MovieManager.Update(movie);
                 return RedirectToAction("Index");
+                */
             }
             catch
             {

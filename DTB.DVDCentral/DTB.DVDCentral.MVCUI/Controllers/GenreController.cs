@@ -18,6 +18,12 @@ namespace DTB.DVDCentral.MVCUI.Controllers
             return View(genres);
         }
 
+        public ActionResult Sidebar()
+        {
+            var genres = GenreManager.Load();
+            return PartialView(genres);
+        }
+
         // GET: Genre/Details/5
         public ActionResult Details(int id)
         {

@@ -20,10 +20,10 @@ namespace DTB.DVDCentral.BL
             try
             {
                 int results = 0;
-                using (butzendbEntities dc = new butzendbEntities()) // I'm not sure why this is the required syntax and not "DVDCentralEntities
-                {                                                    // If you can please let me know what I did wrong, my best guess has to do with
-                    DbContextTransaction transaction = null;         // something screwy when I created the database as there's a DVDCentral.DB and
-                    if (rollback) transaction = dc.Database.BeginTransaction(); // a DTB.DVDCentral.BL.DB in my local projects
+                using (butzendbEntities dc = new butzendbEntities()) 
+                {                                                    
+                    DbContextTransaction transaction = null;        
+                    if (rollback) transaction = dc.Database.BeginTransaction(); 
 
                     //Make a new row
                     tblGenre row = new tblGenre();
@@ -122,19 +122,37 @@ namespace DTB.DVDCentral.BL
         // Retrieve all the degree types
         public static List<Genre> Load()
         {
+            using (butzendbEntities dc = new butzendbEntities())
+            {
+                List<Genre> genres = new List<Genre>();
+
+
+                dc.tblGenres.ToList().ForEach(g => genres.Add(new Genre { Id = g.Id, Description = g.Description }));
+                return genres;
+
+
+            }
+        }
+        public static List<Genre> Load(int movieId)
+        {
             try
             {
-                List<Genre> rows = new List<Genre>();
                 using (butzendbEntities dc = new butzendbEntities())
                 {
-                    dc.tblGenres
-                        .ToList()
-                        .ForEach(dt => rows.Add(new Genre
-                        {
-                            Id = dt.Id,
-                            Description = dt.Description
-                        }));
-                    return rows;
+                    List<Genre> genres = new List<Genre>();
+
+                    var results = (from a in dc.tblGenres
+                                   join pda in dc.tblMovieGenres on a.Id equals pda.GenreId
+                                   where pda.MovieId == movieId
+                                   select new
+                                   {
+                                       a.Id,
+                                       a.Description
+                                   }).ToList();
+
+                    results.ForEach(g => genres.Add(new Genre { Id = g.Id, Description = g.Description }));
+
+                    return genres;
                 }
             }
             catch (Exception ex)

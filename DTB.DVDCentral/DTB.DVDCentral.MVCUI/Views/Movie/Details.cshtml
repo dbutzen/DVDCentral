@@ -67,6 +67,14 @@
             @Html.DisplayFor(model => model.DirectorName)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.ImagePath)
+        </dt>
+
+        <dd>
+            <img src="~/Images/@Model.ImagePath" class="imageprop" />
+        </dd>
+
     </dl>
 </div>
 <p>

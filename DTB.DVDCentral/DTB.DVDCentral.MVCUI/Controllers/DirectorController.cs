@@ -1,5 +1,6 @@
 ﻿using DTB.DVDCentral.BL;
 using DTB.DVDCentral.BL.Models;
+using DTB.DVDCentral.MVCUI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,15 @@ namespace DTB.DVDCentral.MVCUI.Controllers
         // GET: Director
         public ActionResult Index()
         {
-            directors = DirectorManager.Load();
-            return View(directors);
+            if (Authenticate.IsAuthenticated())
+            {
+                directors = DirectorManager.Load();
+                return View(directors);
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
+            }
         }
 
         // GET: Director/Details/5
@@ -29,8 +37,15 @@ namespace DTB.DVDCentral.MVCUI.Controllers
         // GET: Director/Create
         public ActionResult Create()
         {
-            Director director = new Director();
-            return View(director);
+            if (Authenticate.IsAuthenticated())
+            {
+                Director director = new Director();
+                return View(director);
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
+            }
         }
 
         // POST: Director/Create
@@ -52,9 +67,16 @@ namespace DTB.DVDCentral.MVCUI.Controllers
         // GET: Director/Edit/5
         public ActionResult Edit(int id)
         {
-            Director director = new Director();
-            director = DirectorManager.LoadById(id);
-            return View(director);
+            if (Authenticate.IsAuthenticated())
+            {
+                Director director = new Director();
+                director = DirectorManager.LoadById(id);
+                return View(director);
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
+            }
         }
 
         // POST: Director/Edit/5
@@ -76,9 +98,16 @@ namespace DTB.DVDCentral.MVCUI.Controllers
         // GET: Director/Delete/5
         public ActionResult Delete(int id)
         {
-            Director director = new Director();
-            director = DirectorManager.LoadById(id);
-            return View(director);
+            if (Authenticate.IsAuthenticated())
+            {
+                Director director = new Director();
+                director = DirectorManager.LoadById(id);
+                return View(director);
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
+            }
         }
 
         // POST: Director/Delete/5

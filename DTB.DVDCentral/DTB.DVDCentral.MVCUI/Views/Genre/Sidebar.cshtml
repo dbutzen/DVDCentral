@@ -6,7 +6,7 @@
     {
         <tr>
             <td>
-                @Html.ActionLink(item.Description, "Browse", "Movie", new { id = item.Id}, null)
+                @Html.ActionLink(item.Description, "Browse", "Movie", new { id = item.Id }, null)
             </td>
         </tr>
     }
@@ -18,6 +18,16 @@
     <tr>
         <td>
             @Html.ActionLink("New Declaration", "Create", "Movie")
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.ActionLink("Log In", "Login", "User")
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.ActionLink("Log Out", "Logout", "User")
         </td>
     </tr>
 

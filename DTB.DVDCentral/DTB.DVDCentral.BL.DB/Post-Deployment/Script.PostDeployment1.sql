@@ -19,4 +19,4 @@ Post-Deployment Script Template
 :r .\DefaultData\Order.sql
 :r .\DefaultData\OrderItem.sql
 :r .\DefaultData\Rating.sql
-:r .\DefaultData\User.sql
+:r .\DefaultData\UserDVD.sql

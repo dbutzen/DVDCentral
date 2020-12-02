@@ -1,5 +1,5 @@
 ﻿BEGIN
-	INSERT INTO [dbo].tblUser(Id, FirstName, LastName, UserId, Password)
+	INSERT INTO [dbo].tblUserDVD(Id, FirstName, LastName, UserId, Password)
 	VALUES 
 	(1, 'John', 'Wayne', 'theoutlaw', 'imthegoodone'),
 	(2, 'Bruce', 'Wayne', 'imnotbatman', 'imbatman'),

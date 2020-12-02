@@ -1,5 +1,6 @@
 ﻿using DTB.DVDCentral.BL;
 using DTB.DVDCentral.BL.Models;
+using DTB.DVDCentral.MVCUI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,15 @@ namespace DTB.DVDCentral.MVCUI.Controllers
         // GET: Order
         public ActionResult Index()
         {
-            orders = OrderManager.Load();
-            return View(orders);
+            if (Authenticate.IsAuthenticated())
+            {
+                orders = OrderManager.Load();
+                return View(orders);
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
+            }
         }
 
         // GET: Order/Details/5
@@ -29,8 +37,15 @@ namespace DTB.DVDCentral.MVCUI.Controllers
         // GET: Order/Create
         public ActionResult Create()
         {
-            Order order = new Order();
-            return View(order);
+            if (Authenticate.IsAuthenticated())
+            {
+                Order order = new Order();
+                return View(order);
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
+            }
         }
 
         // POST: Order/Create
@@ -52,9 +67,16 @@ namespace DTB.DVDCentral.MVCUI.Controllers
         // GET: Order/Edit/5
         public ActionResult Edit(int id)
         {
-            Order order = new Order();
-            order = OrderManager.LoadById(id);
-            return View(order);
+            if (Authenticate.IsAuthenticated())
+            {
+                Order order = new Order();
+                order = OrderManager.LoadById(id);
+                return View(order);
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
+            }
         }
 
         // POST: Order/Edit/5
@@ -76,9 +98,16 @@ namespace DTB.DVDCentral.MVCUI.Controllers
         // GET: Order/Delete/5
         public ActionResult Delete(int id)
         {
-            Order order = new Order();
-            order = OrderManager.LoadById(id);
-            return View(order);
+            if (Authenticate.IsAuthenticated())
+            {
+                Order order = new Order();
+                order = OrderManager.LoadById(id);
+                return View(order);
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
+            }
         }
 
         // POST: Order/Delete/5

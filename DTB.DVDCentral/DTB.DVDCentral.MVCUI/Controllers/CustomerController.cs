@@ -1,5 +1,6 @@
 ﻿using DTB.DVDCentral.BL;
 using DTB.DVDCentral.BL.Models;
+using DTB.DVDCentral.MVCUI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,15 @@ namespace DTB.DVDCentral.MVCUI.Controllers
         // GET: Customer
         public ActionResult Index()
         {
-            customers = CustomerManager.Load();
-            return View(customers);
+            if (Authenticate.IsAuthenticated())
+            {
+                customers = CustomerManager.Load();
+                return View(customers);
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
+            }
         }
 
         // GET: Customer/Details/5
@@ -29,8 +37,15 @@ namespace DTB.DVDCentral.MVCUI.Controllers
         // GET: Customer/Create
         public ActionResult Create()
         {
-            Customer customer = new Customer();
-            return View(customer);
+            if (Authenticate.IsAuthenticated())
+            {
+                Customer customer = new Customer();
+                return View(customer);
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
+            }
         }
 
         // POST: Customer/Create
@@ -52,9 +67,16 @@ namespace DTB.DVDCentral.MVCUI.Controllers
         // GET: Customer/Edit/5
         public ActionResult Edit(int id)
         {
-            Customer customer = new Customer();
-            customer = CustomerManager.LoadById(id);
-            return View(customer);
+            if (Authenticate.IsAuthenticated())
+            {
+                Customer customer = new Customer();
+                customer = CustomerManager.LoadById(id);
+                return View(customer);
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
+            }
         }
 
         // POST: Customer/Edit/5
@@ -76,9 +98,16 @@ namespace DTB.DVDCentral.MVCUI.Controllers
         // GET: Customer/Delete/5
         public ActionResult Delete(int id)
         {
-            Customer customer = new Customer();
-            customer = CustomerManager.LoadById(id);
-            return View(customer);
+            if (Authenticate.IsAuthenticated())
+            {
+                Customer customer = new Customer();
+                customer = CustomerManager.LoadById(id);
+                return View(customer);
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
+            }
         }
 
         // POST: Customer/Delete/5

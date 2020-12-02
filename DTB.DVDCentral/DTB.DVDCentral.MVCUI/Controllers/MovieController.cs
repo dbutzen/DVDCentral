@@ -1,5 +1,6 @@
 ﻿using DTB.DVDCentral.BL;
 using DTB.DVDCentral.BL.Models;
+using DTB.DVDCentral.MVCUI.Models;
 using DTB.DVDCentral.MVCUI.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -16,14 +17,28 @@ namespace DTB.DVDCentral.MVCUI.Controllers
         // GET: Movie
         public ActionResult Index()
         {
-            movies = MovieManager.Load();
-            return View(movies);
+            if (Authenticate.IsAuthenticated())
+            {
+                movies = MovieManager.Load();
+                return View(movies);
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
+            }
         }
         public ActionResult Browse(int id)
         {
-            movies = MovieGenreManager.Load(id);
-            
-            return View(movies);
+            if (Authenticate.IsAuthenticated())
+            {
+                movies = MovieGenreManager.Load(id);
+
+                return View(movies);
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
+            }
         }
         public ActionResult Load(int id)
         {
@@ -42,14 +57,21 @@ namespace DTB.DVDCentral.MVCUI.Controllers
         // GET: Movie/Create
         public ActionResult Create()
         {
-            MovieGenresDirectorsRatingsFormats mgdrf = new MovieGenresDirectorsRatingsFormats();
-            mgdrf.Movie = new Movie();
-            mgdrf.Directors = DirectorManager.Load();
-            mgdrf.Formats = FormatManager.Load();
-            mgdrf.Ratings = RatingManager.Load();
-            mgdrf.Genres = GenreManager.Load();
+            if (Authenticate.IsAuthenticated())
+            {
+                MovieGenresDirectorsRatingsFormats mgdrf = new MovieGenresDirectorsRatingsFormats();
+                mgdrf.Movie = new Movie();
+                mgdrf.Directors = DirectorManager.Load();
+                mgdrf.Formats = FormatManager.Load();
+                mgdrf.Ratings = RatingManager.Load();
+                mgdrf.Genres = GenreManager.Load();
 
-            return View(mgdrf);
+                return View(mgdrf);
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
+            }
         }
 
         // POST: Movie/Create
@@ -90,18 +112,25 @@ namespace DTB.DVDCentral.MVCUI.Controllers
         // GET: Movie/Edit/5
         public ActionResult Edit(int id)
         {
-            MovieGenresDirectorsRatingsFormats mgdrf = new MovieGenresDirectorsRatingsFormats();
-            mgdrf.Movie = MovieManager.LoadById(id);
-            mgdrf.Ratings = RatingManager.Load();
-            mgdrf.Directors = DirectorManager.Load();
-            mgdrf.Formats = FormatManager.Load();
-            mgdrf.Genres = GenreManager.Load();
-            mgdrf.Movie.Genres = GenreManager.Load(id);
-            mgdrf.GenreIds = mgdrf.Movie.Genres.Select(a => a.Id);
-            Session["genreids"] = mgdrf.GenreIds;
-            /*Movie movie = new Movie();
-            movie = MovieManager.LoadById(id);*/
-            return View(mgdrf);
+            if (Authenticate.IsAuthenticated())
+            {
+                MovieGenresDirectorsRatingsFormats mgdrf = new MovieGenresDirectorsRatingsFormats();
+                mgdrf.Movie = MovieManager.LoadById(id);
+                mgdrf.Ratings = RatingManager.Load();
+                mgdrf.Directors = DirectorManager.Load();
+                mgdrf.Formats = FormatManager.Load();
+                mgdrf.Genres = GenreManager.Load();
+                mgdrf.Movie.Genres = GenreManager.Load(id);
+                mgdrf.GenreIds = mgdrf.Movie.Genres.Select(a => a.Id);
+                Session["genreids"] = mgdrf.GenreIds;
+                /*Movie movie = new Movie();
+                movie = MovieManager.LoadById(id);*/
+                return View(mgdrf);
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
+            }
         }
 
 
@@ -166,9 +195,16 @@ namespace DTB.DVDCentral.MVCUI.Controllers
         // GET: Movie/Delete/5
         public ActionResult Delete(int id)
         {
-            Movie movie = new Movie();
-            movie = MovieManager.LoadById(id);
-            return View(movie);
+            if (Authenticate.IsAuthenticated())
+            {
+                Movie movie = new Movie();
+                movie = MovieManager.LoadById(id);
+                return View(movie);
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
+            }
         }
 
         // POST: Movie/Delete/5

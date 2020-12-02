@@ -1,5 +1,6 @@
 ﻿using DTB.DVDCentral.BL;
 using DTB.DVDCentral.BL.Models;
+using DTB.DVDCentral.MVCUI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,15 @@ namespace DTB.DVDCentral.MVCUI.Controllers
         // GET: Format
         public ActionResult Index()
         {
-            formats = FormatManager.Load();
-            return View(formats);
+            if (Authenticate.IsAuthenticated())
+            {
+                formats = FormatManager.Load();
+                return View(formats);
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
+            }
         }
 
         // GET: Format/Details/5
@@ -29,8 +37,15 @@ namespace DTB.DVDCentral.MVCUI.Controllers
         // GET: Format/Create
         public ActionResult Create()
         {
-            Format format = new Format();
-            return View(format);
+            if (Authenticate.IsAuthenticated())
+            {
+                Format format = new Format();
+                return View(format);
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
+            }
         }
 
         // POST: Format/Create
@@ -52,9 +67,16 @@ namespace DTB.DVDCentral.MVCUI.Controllers
         // GET: Format/Edit/5
         public ActionResult Edit(int id)
         {
-            Format format = new Format();
-            format = FormatManager.LoadById(id);
-            return View(format);
+            if (Authenticate.IsAuthenticated())
+            {
+                Format format = new Format();
+                format = FormatManager.LoadById(id);
+                return View(format);
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
+            }
         }
 
         // POST: Format/Edit/5
@@ -76,9 +98,16 @@ namespace DTB.DVDCentral.MVCUI.Controllers
         // GET: Format/Delete/5
         public ActionResult Delete(int id)
         {
-            Format format = new Format();
-            format = FormatManager.LoadById(id);
-            return View(format);
+            if (Authenticate.IsAuthenticated())
+            {
+                Format format = new Format();
+                format = FormatManager.LoadById(id);
+                return View(format);
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
+            }
         }
 
         // POST: Format/Delete/5

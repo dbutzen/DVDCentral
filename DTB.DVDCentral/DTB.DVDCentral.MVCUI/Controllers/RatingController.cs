@@ -1,5 +1,6 @@
 ﻿using DTB.DVDCentral.BL;
 using DTB.DVDCentral.BL.Models;
+using DTB.DVDCentral.MVCUI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,15 @@ namespace DTB.DVDCentral.MVCUI.Controllers
         // GET: Rating
         public ActionResult Index()
         {
-            ratings = RatingManager.Load();
-            return View(ratings);
+            if (Authenticate.IsAuthenticated())
+            {
+                ratings = RatingManager.Load();
+                return View(ratings);
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
+            }
         }
 
         // GET: Rating/Details/5
@@ -29,8 +37,15 @@ namespace DTB.DVDCentral.MVCUI.Controllers
         // GET: Rating/Create
         public ActionResult Create()
         {
-            Rating rating = new Rating();
-            return View(rating);
+            if (Authenticate.IsAuthenticated())
+            {
+                Rating rating = new Rating();
+                return View(rating);
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
+            }
         }
 
         // POST: Rating/Create
@@ -52,9 +67,16 @@ namespace DTB.DVDCentral.MVCUI.Controllers
         // GET: Rating/Edit/5
         public ActionResult Edit(int id)
         {
-            Rating rating = new Rating();
-            rating = RatingManager.LoadById(id);
-            return View(rating);
+            if (Authenticate.IsAuthenticated())
+            {
+                Rating rating = new Rating();
+                rating = RatingManager.LoadById(id);
+                return View(rating);
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
+            }
         }
 
         // POST: Rating/Edit/5
@@ -76,9 +98,16 @@ namespace DTB.DVDCentral.MVCUI.Controllers
         // GET: Rating/Delete/5
         public ActionResult Delete(int id)
         {
-            Rating rating = new Rating();
-            rating = RatingManager.LoadById(id);
-            return View(rating);
+            if (Authenticate.IsAuthenticated())
+            {
+                Rating rating = new Rating();
+                rating = RatingManager.LoadById(id);
+                return View(rating);
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
+            }
         }
 
         // POST: Rating/Delete/5

@@ -69,9 +69,9 @@
     <Build Include="Tables\tblCustomer.sql" />
     <Build Include="Tables\tblOrder.sql" />
     <Build Include="Tables\tblOrderItem.sql" />
-    <Build Include="Tables\tblUser.sql" />
     <Build Include="Tables\tblFormat.sql" />
     <Build Include="Tables\tblGenre.sql" />
+    <Build Include="Tables\tblUserDVD.sql" />
   </ItemGroup>
   <ItemGroup>
     <PreDeploy Include="Pre-Deployment\Script.PreDeployment1.sql" />
@@ -84,7 +84,7 @@
     <None Include="Post-Deployment\DefaultData\Genre.sql" />
     <None Include="Post-Deployment\DefaultData\MovieGenre.sql" />
     <None Include="Post-Deployment\DefaultData\Customer.sql" />
-    <None Include="Post-Deployment\DefaultData\User.sql" />
+    <None Include="Post-Deployment\DefaultData\UserDVD.sql" />
     <None Include="Post-Deployment\DefaultData\Order.sql" />
     <None Include="Post-Deployment\DefaultData\OrderItem.sql" />
     <None Include="DTB.DVDCentral.BL.DB.publish.xml" />

@@ -1,5 +1,6 @@
 ﻿using DTB.DVDCentral.BL;
 using DTB.DVDCentral.BL.Models;
+using DTB.DVDCentral.MVCUI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,14 +15,22 @@ namespace DTB.DVDCentral.MVCUI.Controllers
         // GET: Genre
         public ActionResult Index()
         {
-            genres = GenreManager.Load();
-            return View(genres);
+            if (Authenticate.IsAuthenticated())
+            {
+                genres = GenreManager.Load();
+                return View(genres);
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
+            }
         }
 
         public ActionResult Sidebar()
         {
             var genres = GenreManager.Load();
             return PartialView(genres);
+            
         }
 
         // GET: Genre/Details/5
@@ -35,8 +44,15 @@ namespace DTB.DVDCentral.MVCUI.Controllers
         // GET: Genre/Create
         public ActionResult Create()
         {
-            Genre genre = new Genre();
-            return View(genre);
+            if (Authenticate.IsAuthenticated())
+            {
+                Genre genre = new Genre();
+                return View(genre);
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
+            }
         }
 
         // POST: Genre/Create
@@ -58,9 +74,16 @@ namespace DTB.DVDCentral.MVCUI.Controllers
         // GET: Genre/Edit/5
         public ActionResult Edit(int id)
         {
-            Genre genre = new Genre();
-            genre = GenreManager.LoadById(id);
-            return View(genre);
+            if (Authenticate.IsAuthenticated())
+            {
+                Genre genre = new Genre();
+                genre = GenreManager.LoadById(id);
+                return View(genre);
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
+            }
         }
 
         // POST: Genre/Edit/5
@@ -82,9 +105,16 @@ namespace DTB.DVDCentral.MVCUI.Controllers
         // GET: Genre/Delete/5
         public ActionResult Delete(int id)
         {
-            Genre genre = new Genre();
-            genre = GenreManager.LoadById(id);
-            return View(genre);
+            if (Authenticate.IsAuthenticated())
+            {
+                Genre genre = new Genre();
+                genre = GenreManager.LoadById(id);
+                return View(genre);
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
+            }
         }
 
         // POST: Genre/Delete/5

@@ -14,16 +14,17 @@ namespace DTB.DVDCentral.BL
         // No properties in a static class
 
         // Insert new OrderItem
+        
         public static int Insert(OrderItem orderItem, bool rollback = false)
         {
             // Insert a row
             try
             {
                 int results = 0;
-                using (butzendbEntities dc = new butzendbEntities()) // I'm not sure why this is the required syntax and not "DVDCentralEntities
-                {                                                    // If you can please let me know what I did wrong, my best guess has to do with
-                    DbContextTransaction transaction = null;         // something screwy when I created the database as there's a DVDCentral.DB and
-                    if (rollback) transaction = dc.Database.BeginTransaction(); // a DTB.DVDCentral.BL.DB in my local projects
+                using (butzendbEntities dc = new butzendbEntities()) 
+                {                                                    
+                    DbContextTransaction transaction = null;         
+                    if (rollback) transaction = dc.Database.BeginTransaction(); 
 
                     //Make a new row
                     tblOrderItem row = new tblOrderItem();
@@ -51,6 +52,9 @@ namespace DTB.DVDCentral.BL
                 throw ex;
             }
         }
+        
+
+        
 
         // Update an existing OrderItem
         public static int Update(OrderItem orderItem, bool rollback = false)

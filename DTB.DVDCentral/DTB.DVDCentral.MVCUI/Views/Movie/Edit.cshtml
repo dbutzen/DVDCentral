@@ -107,7 +107,8 @@
 </script>
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index") |
+    @Html.ActionLink("Add to Cart", "AddToCart", "ShoppingCart", new { id = Model.Movie.Id }, null)
 </div>
 
 

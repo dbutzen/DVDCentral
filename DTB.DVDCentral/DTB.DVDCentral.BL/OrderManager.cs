@@ -20,10 +20,10 @@ namespace DTB.DVDCentral.BL
             try
             {
                 int results = 0;
-                using (butzendbEntities dc = new butzendbEntities()) // I'm not sure why this is the required syntax and not "DVDCentralEntities
-                {                                                    // If you can please let me know what I did wrong, my best guess has to do with
-                    DbContextTransaction transaction = null;         // something screwy when I created the database as there's a DVDCentral.DB and
-                    if (rollback) transaction = dc.Database.BeginTransaction(); // a DTB.DVDCentral.BL.DB in my local projects
+                using (butzendbEntities dc = new butzendbEntities())
+                {
+                    DbContextTransaction transaction = null;
+                    if (rollback) transaction = dc.Database.BeginTransaction();
 
                     //Make a new row
                     tblOrder row = new tblOrder();
@@ -34,12 +34,65 @@ namespace DTB.DVDCentral.BL
                     row.UserId = order.UserId;
                     row.ShipDate = order.ShipDate;
                     row.OrderDate = order.OrderDate;
-
-                    // Backfill Id on degreetype object (param)
                     order.Id = row.Id;
+
                     // Insert the row
                     dc.tblOrders.Add(row);
                     results = dc.SaveChanges();
+
+                    
+
+                    if (rollback) transaction.Rollback();
+                    return results;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+
+        public static int Insert(Order order, List<Movie> items, bool rollback = false)
+        {
+            // Insert a row
+            try
+            {
+                int results = 0;
+                using (butzendbEntities dc = new butzendbEntities()) 
+                {                                                    
+                    DbContextTransaction transaction = null;         
+                    if (rollback) transaction = dc.Database.BeginTransaction(); 
+
+                    //Make a new row
+                    tblOrder row = new tblOrder();
+
+                    //Set the properties
+                    row.Id = dc.tblOrders.Any() ? dc.tblOrders.Max(dt => dt.Id) + 1 : 1;
+                    row.CustomerId = order.CustomerId;
+                    row.UserId = order.UserId;
+                    row.ShipDate = order.ShipDate;
+                    row.OrderDate = order.OrderDate;
+                    order.Id = row.Id;
+
+                    // Insert the row
+                    dc.tblOrders.Add(row);
+                    results = dc.SaveChanges();
+
+                    foreach(Movie movie in items)
+                    {
+                        tblOrderItem itemrow = new tblOrderItem();
+
+                        itemrow.Id = dc.tblOrderItems.Any() ? dc.tblOrderItems.Max(o => o.Id) + 1 : 1;
+                        itemrow.OrderId = row.Id;
+                        itemrow.MovieId = movie.Id;
+                        itemrow.Quantity = 1;
+                        itemrow.Cost = movie.Cost;
+
+                        dc.tblOrderItems.Add(itemrow);
+                        results = dc.SaveChanges();
+                    }
 
                     if (rollback) transaction.Rollback();
                     return results;

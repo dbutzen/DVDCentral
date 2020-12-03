@@ -24,15 +24,7 @@
                 <li class="nav-item active">
                     <a class="nav-link" runat="server" href="~/">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" runat="server" href="~/About">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" runat="server" href="~/Contact">Contact</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" runat="server" href="~/Admin">Admin</a>
-                </li>
+                
                 <li class="nav-item">
                     <a class="nav-link" runat="server" href="~/Movie">Movie</a>
                 </li>
@@ -62,12 +54,15 @@
     </nav>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-2 sidebar rounded-top">
+            <div class="col-md-2 sidebar">
                 <div class="header rounded-top">
                     <h3>Genres</h3>
                 </div>
                 <div>
                     @{ Html.RenderAction("Sidebar", "Genre");}
+                </div>
+                <div>
+                    @{ Html.RenderAction("CartDisplay", "ShoppingCart");}
                 </div>
             </div>
 

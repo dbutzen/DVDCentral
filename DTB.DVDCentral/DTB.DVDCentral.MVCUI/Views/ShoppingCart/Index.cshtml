@@ -1,0 +1,73 @@
+﻿@model DTB.DVDCentral.BL.Models.ShoppingCart
+
+@{
+    ViewBag.Title = "Shopping Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Items[0].Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Items[0].Description)
+        </th>
+        <th>
+            Quantity
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Items)
+    {
+        <tr>
+            <td>
+                <img src="~/Images/@item.ImagePath" class="imagepropmed" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+
+            <td>
+                1
+            </td>
+            <td>
+                @Html.ActionLink("Remove", "RemoveFromCart", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+<table class="table">
+    <tr>
+        <td>Cost: </td>
+        <td>$@Model.TotalCost</td>
+    </tr>
+    <tr>
+        <td>Tax: </td>
+        <td>$@(Model.TotalCost * .05)</td>
+    </tr>
+    <tr>
+        <td>Total Cost: </td>
+        <td>$@(Model.TotalCost * 1.05)</td>
+    </tr>
+</table>
+
+
+
+<div class="form-group">
+    <div>@Html.ActionLink("Check Out", "Checkout", "ShoppingCart", null, new { @class = "btn btn-primary" })</div>
+</div>
+

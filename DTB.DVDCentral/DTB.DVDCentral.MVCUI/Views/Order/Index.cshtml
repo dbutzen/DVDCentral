@@ -1,20 +1,16 @@
 ﻿@model IEnumerable<DTB.DVDCentral.BL.Models.Order>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Orders";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.CustomerId)
-        </th>
         <th>
             @Html.DisplayNameFor(model => model.OrderDate)
         </th>
@@ -29,9 +25,6 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.CustomerId)
-        </td>
         <td>
             @Html.DisplayFor(modelItem => item.OrderDate)
         </td>

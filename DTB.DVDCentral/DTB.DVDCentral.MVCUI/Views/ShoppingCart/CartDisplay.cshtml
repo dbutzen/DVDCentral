@@ -9,7 +9,7 @@
                 int count = Model.TotalCount;
                 @Html.ActionLink(count.ToString() + " items", "Index");
             }
-            
+
         </dd>
         <dd>
             @Html.ActionLink("View Cart", "Index")
@@ -17,6 +17,10 @@
         <dd>
             @Html.ActionLink("Check Out", "CheckOut")
         </dd>
+        <dd>
+            @Html.ActionLink("View Orders", "Index", "Order")
+        </dd>
+            
     </dl>
 </div>
 

@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using DTB.DVDCentral.BL;
 using DTB.DVDCentral.BL.Models;
+using DTB.DVDCentral.MVCUI.Models;
+using DTB.DVDCentral.MVCUI.ViewModels;
 
 namespace DTB.DVDCentral.MVCUI.Controllers
 {
@@ -15,8 +17,38 @@ namespace DTB.DVDCentral.MVCUI.Controllers
         // GET: ShoppingCart
         public ActionResult Index()
         {
-            GetShoppingCart();
-            return View(cart);
+            if (Authenticate.IsAuthenticated())
+            {
+                CartCustomers cc = new CartCustomers();
+                cc.customers = CustomerManager.Load();
+                cc.cart = cart;
+                User user = (User)Session["user"];
+                int validated = 0;
+                foreach (Customer c in cc.customers)
+                {
+                    if (c.UserId == user.Id)
+                    {
+                        validated++;
+                    }
+                    
+                }
+                if (validated >= 1)
+                {
+                    //Good
+                    GetShoppingCart();
+                    return View(cart);
+                }
+                else
+                {
+                    return RedirectToAction("AssignCustomer", "ShoppingCart", new { returnurl = HttpContext.Request.Url });
+                }
+
+
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
+            }
         }
 
         //Show cart in sidebar - child action only for partial views
@@ -26,6 +58,7 @@ namespace DTB.DVDCentral.MVCUI.Controllers
             GetShoppingCart();
             return PartialView(cart);
         }
+        
 
         public ActionResult RemoveFromCart(int id)
         {
@@ -57,6 +90,44 @@ namespace DTB.DVDCentral.MVCUI.Controllers
             GetShoppingCart();
             ShoppingCartManager.Checkout(cart);
             return View();
+        }
+
+        public ActionResult AssignCustomer()
+        {
+            CartCustomers cc = new CartCustomers();
+            cc.customers = CustomerManager.Load();
+            return View(cc);
+        }
+
+        [HttpPost]
+        public ActionResult AssignCustomer(CartCustomers cc, User user)
+        {
+            try
+            {
+                if (Authenticate.IsAuthenticated())
+                {
+                    Customer customer = CustomerManager.LoadById(user.Id);
+                    Session["user"] = user;
+                    if (cc.custID == customer.Id)
+                    {
+                        return RedirectToAction("Checkout", "ShoppingCart");
+                    }
+                    else
+                    {
+                        return View();
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
+                }
+            }
+            catch (Exception ex)
+            {
+
+                ViewBag.Message = ex.Message;
+                return View();
+            }
         }
     }
 }

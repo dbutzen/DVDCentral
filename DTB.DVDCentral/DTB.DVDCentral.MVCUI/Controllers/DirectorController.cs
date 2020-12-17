@@ -1,9 +1,12 @@
 ﻿using DTB.DVDCentral.BL;
 using DTB.DVDCentral.BL.Models;
 using DTB.DVDCentral.MVCUI.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 
@@ -125,5 +128,133 @@ namespace DTB.DVDCentral.MVCUI.Controllers
                 return View();
             }
         }
+
+
+        #region "WebAPI"
+
+        private static HttpClient InitializationClient()
+        {
+            HttpClient client = new HttpClient();
+            //client.BaseAddress = new Uri("https://localhost:44317/api/");
+
+            client.BaseAddress = new Uri("http://dtbprogdecapi.azurewebsites.net/api/");
+            return client;
+        }
+
+        public ActionResult Get()
+        {
+            HttpClient client = InitializationClient();
+
+            // Do the actual call to the WebAPI
+            HttpResponseMessage reponse = client.GetAsync("Director").Result;
+            //Parse the result
+            string result = reponse.Content.ReadAsStringAsync().Result;
+            //Parse the result into generic objects
+            dynamic items = (JArray)JsonConvert.DeserializeObject(result);
+            //Pase the items into a list of program
+            List<Director> directors = items.ToObject<List<Director>>();
+
+            ViewBag.Source = "Get";
+            return View("Index", directors);
+
+        }
+
+        public ActionResult GetOne(int id)
+        {
+            HttpClient client = InitializationClient();
+
+            // Do the actual call to the WebAPI
+            HttpResponseMessage reponse = client.GetAsync("Director/" + id).Result;
+            //Parse the result
+            string result = reponse.Content.ReadAsStringAsync().Result;
+            //Parse the result into generic objects
+            Director director = JsonConvert.DeserializeObject<Director>(result);
+
+            return View("Details", director);
+        }
+
+        public ActionResult Insert()
+        {
+            HttpClient client = InitializationClient();
+
+            Director director = new Director();
+            return View("Create", director);
+        }
+        [HttpPost]
+        public ActionResult Insert(Director director)
+        {
+            try
+            {
+                HttpClient client = InitializationClient();
+                HttpResponseMessage response = client.PostAsJsonAsync("director", director).Result;
+                return RedirectToAction("Get");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                return View("Create", director);
+            }
+
+        }
+
+        public ActionResult Update(int id)
+        {
+            HttpClient client = InitializationClient();
+
+
+            HttpResponseMessage response = client.GetAsync("Director/" + id).Result;
+            string result = response.Content.ReadAsStringAsync().Result;
+            Director director = JsonConvert.DeserializeObject<Director>(result);
+
+            return View("Edit", director);
+        }
+
+        
+
+        [HttpPost]
+        public ActionResult Update(int id, Director director)
+        {
+            try
+            {
+                HttpClient client = InitializationClient();
+                HttpResponseMessage response = client.PutAsJsonAsync("Director/" + id, director).Result;
+                return RedirectToAction("Get");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                return View("Edit", director);
+            }
+
+        }
+
+        public ActionResult Remove(int id)
+        {
+            HttpClient client = InitializationClient();
+            HttpResponseMessage response = client.GetAsync("Director/" + id).Result;
+            string result = response.Content.ReadAsStringAsync().Result;
+            Director director = JsonConvert.DeserializeObject<Director>(result);
+            return View("Delete", director);
+        }
+
+        [HttpPost]
+        public ActionResult Remove(int id, Director director)
+        {
+            try
+            {
+                HttpClient client = InitializationClient();
+                HttpResponseMessage response = client.DeleteAsync("Director/" + id).Result;
+                return RedirectToAction("Get");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                return View("Delete", director);
+            }
+
+        }
+
+        #endregion
+
     }
 }

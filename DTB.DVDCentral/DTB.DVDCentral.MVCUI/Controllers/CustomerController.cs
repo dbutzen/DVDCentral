@@ -64,6 +64,35 @@ namespace DTB.DVDCentral.MVCUI.Controllers
             }
         }
 
+        public ActionResult CreateFromAssign()
+        {
+            if (Authenticate.IsAuthenticated())
+            {
+                Customer customer = new Customer();
+                return View(customer);
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
+            }
+        }
+
+        // POST: Customer/Create
+        [HttpPost]
+        public ActionResult CreateFromAssign(Customer customer)
+        {
+            try
+            {
+                // TODO: Add insert logic here
+                CustomerManager.Insert(customer);
+                return RedirectToAction("AssignCustomer", "ShoppingCart");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
         // GET: Customer/Edit/5
         public ActionResult Edit(int id)
         {

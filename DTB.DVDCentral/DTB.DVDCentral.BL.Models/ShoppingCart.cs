@@ -12,6 +12,9 @@ namespace DTB.DVDCentral.BL.Models
         public List<Movie> Items { get; set; }
         public int TotalCount { get { return Items.Count; } }
 
+        public int CustomerId { get; set; }
+        public int UserId { get; set; }
+
         public ShoppingCart()
         {
             Items = new List<Movie>();

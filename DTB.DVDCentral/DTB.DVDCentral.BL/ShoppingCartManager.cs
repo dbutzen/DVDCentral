@@ -23,7 +23,8 @@ namespace DTB.DVDCentral.BL
             order.CustomerId = 1;
             order.OrderDate = DateTime.Now;
             order.ShipDate = DateTime.Now.AddDays(3);
-            order.UserId = 1;
+            order.UserId = cart.UserId;
+            order.CustomerId = cart.CustomerId;
             OrderManager.Insert(order, cart.Items);
             cart.CheckOut();
         }

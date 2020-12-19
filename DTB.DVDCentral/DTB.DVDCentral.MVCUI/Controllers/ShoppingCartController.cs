@@ -100,27 +100,17 @@ namespace DTB.DVDCentral.MVCUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult AssignCustomer(CartCustomers cc, User user)
+        public ActionResult AssignCustomer(CartCustomers cc)
         {
             try
             {
-                if (Authenticate.IsAuthenticated())
-                {
-                    Customer customer = CustomerManager.LoadById(user.Id);
-                    Session["user"] = user;
-                    if (cc.custID == customer.Id)
-                    {
-                        return RedirectToAction("Checkout", "ShoppingCart");
-                    }
-                    else
-                    {
-                        return View();
-                    }
-                }
-                else
-                {
-                    return RedirectToAction("Login", "User", new { returnurl = HttpContext.Request.Url });
-                }
+                User user = (User)Session["user"];
+                GetShoppingCart();
+                cart.CustomerId = cc.custID;
+                cart.UserId = user.Id;
+
+                ShoppingCartManager.Checkout(cart);
+                return RedirectToAction("Index", "Order");
             }
             catch (Exception ex)
             {

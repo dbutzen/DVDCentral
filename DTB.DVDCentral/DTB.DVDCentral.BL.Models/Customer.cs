@@ -17,6 +17,10 @@ namespace DTB.DVDCentral.BL.Models
         public int ZIP { get; set; }
         public string Phone { get; set; }
         public int UserId { get; set; }
+        public string FullName
+        {
+            get { return FirstName + " " + LastName; }
+        }
 
     }
 }
